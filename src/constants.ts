@@ -1,0 +1,1 @@
+export const DISCUSSION_DURATION_SECONDS = 60;
