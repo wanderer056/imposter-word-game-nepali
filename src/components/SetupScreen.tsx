@@ -95,7 +95,7 @@ export default function SetupScreen({
   }, [onClearAll]);
 
   return (
-    <div className="min-h-dvh flex flex-col items-center justify-center p-6 animate-fade-in">
+    <div className="min-h-dvh flex flex-col items-center justify-center pt-24 px-6 pb-6 animate-fade-in">
       {players.length > 0 && (
         <ExitButton
           variant="clear"
@@ -103,10 +103,10 @@ export default function SetupScreen({
           onClick={handleClearAll}
         />
       )}
-      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-2 text-neutral-800">
+      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-2 text-neutral-800 w-full max-w-sm px-20 sm:px-0">
         🎭 {t.gameTitle}
       </h1>
-      <p className="text-neutral-600 text-sm mb-6 text-center">
+      <p className="text-neutral-600 text-sm mb-6 text-center w-full max-w-sm px-20 sm:px-0">
         {t.setupSubtitle}
       </p>
 
