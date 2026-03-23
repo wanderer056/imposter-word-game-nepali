@@ -5,6 +5,8 @@ import ExitButton from "./ExitButton";
 
 interface SetupScreenProps {
   initialPlayers: string[];
+  initialGameOptions: GameOptions;
+  initialNumImposters: number;
   onStartGame: (
     players: string[],
     numImposters: number,
@@ -15,19 +17,31 @@ interface SetupScreenProps {
 
 export default function SetupScreen({
   initialPlayers,
+  initialGameOptions,
+  initialNumImposters,
   onStartGame,
   onClearAll,
 }: SetupScreenProps) {
   const { t } = useLanguage();
   const [players, setPlayers] = useState<string[]>(initialPlayers);
+  const [playerInput, setPlayerInput] = useState("");
+  const [numImposters, setNumImposters] = useState(initialNumImposters);
+  const [showCategoryToImposter, setShowCategoryToImposter] = useState(
+    initialGameOptions.showCategoryToImposter
+  );
+  const [showHintToImposter, setShowHintToImposter] = useState(
+    initialGameOptions.showHintToImposter
+  );
 
   useEffect(() => {
     setPlayers(initialPlayers);
   }, [initialPlayers]);
-  const [playerInput, setPlayerInput] = useState("");
-  const [numImposters, setNumImposters] = useState(1);
-  const [showCategoryToImposter, setShowCategoryToImposter] = useState(true);
-  const [showHintToImposter, setShowHintToImposter] = useState(true);
+
+  useEffect(() => {
+    setNumImposters(initialNumImposters);
+    setShowCategoryToImposter(initialGameOptions.showCategoryToImposter);
+    setShowHintToImposter(initialGameOptions.showHintToImposter);
+  }, [initialNumImposters, initialGameOptions]);
 
   const addPlayer = useCallback(() => {
     const name = playerInput.trim();
@@ -66,6 +80,13 @@ export default function SetupScreen({
   ]);
 
   const maxImposters = Math.max(1, players.length - 1);
+
+  useEffect(() => {
+    if (numImposters > maxImposters) {
+      setNumImposters(maxImposters);
+    }
+  }, [maxImposters, numImposters]);
+
   const canStart = players.length >= 2;
 
   const handleClearAll = useCallback(() => {

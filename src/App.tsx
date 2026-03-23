@@ -20,6 +20,11 @@ function AppContent() {
   const { t, language } = useLanguage();
   const [phase, setPhase] = useState<GamePhase>("setup");
   const [players, setPlayers] = useState<string[]>([]);
+  const [lastGameOptions, setLastGameOptions] = useState<GameOptions>({
+    showCategoryToImposter: true,
+    showHintToImposter: true,
+  });
+  const [lastNumImposters, setLastNumImposters] = useState(1);
   const [wordEntry, setWordEntry] = useState<ReturnType<typeof getRandomWord> | null>(null);
   const [gameOptions, setGameOptions] = useState<GameOptions | null>(null);
   const [imposters, setImposters] = useState<string[]>([]);
@@ -42,6 +47,8 @@ function AppContent() {
       setPlayers(newPlayers);
       setWordEntry(entry);
       setGameOptions(options);
+      setLastGameOptions(options);
+      setLastNumImposters(newNumImposters);
       setImposters(selectedImposters);
       setCurrentRevealIndex(0);
       setHasViewed(new Set());
@@ -120,6 +127,7 @@ function AppContent() {
 
   const clearPlayers = useCallback(() => {
     setPlayers([]);
+    setLastNumImposters(1);
   }, []);
 
   return (
@@ -128,6 +136,8 @@ function AppContent() {
       {phase === "setup" && (
         <SetupScreen
           initialPlayers={players}
+          initialGameOptions={lastGameOptions}
+          initialNumImposters={lastNumImposters}
           onStartGame={startGame}
           onClearAll={clearPlayers}
         />
